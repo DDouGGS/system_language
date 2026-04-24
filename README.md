@@ -1,145 +1,192 @@
-<!--
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+Aqui está um exemplo de **README.md** claro e organizado baseado na sua classe Dart:
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/tools/pub/writing-package-pages).
+---
 
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/to/develop-packages).
--->
+# 📚 SystemLanguage
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+A classe `SystemLanguage` é responsável por gerenciar múltiplos conjuntos de textos (livros) para diferentes idiomas, permitindo acesso, customização e adição dinâmica de conteúdos.
 
-## Features
+## 🚀 Objetivo
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+Fornecer uma estrutura simples para:
 
-## Getting started
+* Gerenciar idiomas
+* Recuperar textos por índice
+* Inserir novos textos
+* Trabalhar com textos dinâmicos (com parâmetros)
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+---
 
-## Usage
-
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
+## 🧱 Estrutura da Classe
 
 ```dart
-const like = 'sample';
+class SystemLanguage
 ```
 
-## Additional information
+### Propriedades
 
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
+| Nome    | Tipo                   | Descrição                            |
+| ------- | ---------------------- | ------------------------------------ |
+| `basic` | `String`               | Define o idioma padrão (ex: `pt_br`) |
+| `books` | `Map<String, dynamic>` | Mapa de livros por idioma            |
 
-O pacote Application_Language oferece um método simples e centralizado de gerênciar arquivos de linguagens e utulizá-los dentro do App.
-Porém, por motivos de segurança não é permitido moldar textos parametrizados para SQL.
+---
 
-# Recursos
+## 🔧 Construtores
 
-Identifica de forma simples registro no mapa de linguagem padrão e devolver o texto registrado para o indice. Permitindo a definição vários livros de linguagens e seu uso conforme a definição do livro padrão, de forma centralizada e simples, no app. 
+### 1. Construtor padrão
 
-## ApplicationLanguage
+```dart
+SystemLanguage(String basic, book)
+```
 
-### Construtor e Construtor nomeado
+Inicializa o sistema com:
 
-***ApplicationLanguage***
-- Função construtora para a classe. [Exceção]
+* Um idioma padrão
+* Um único livro associado a esse idioma
 
-***ApplicationLanguage.books***
-- Função construtora nomeada para a classe. [Exceção]
+**Exemplo:**
 
-### Saída de texto simples.
+```dart
+var system = SystemLanguage('pt_br', bookInstance);
+```
 
-***out***
-- Expõe texto para o indice. [Exceção]
+---
 
-### Adição de texto temporários.
+### 2. Construtor nomeado
 
-***add***
-- Adiciona um registro no mapa padrão. [Exceção]
+```dart
+SystemLanguage.books(Map<String, dynamic> books, String indexBasic)
+```
 
-### Saída de texto moldável.
+Permite iniciar com múltiplos livros e definir o idioma padrão.
 
-***paramns (Map<String, String>)***
-- Mapa de parametrizações. [Exceção]
-	Ex.: { '1': 'moldável'}
-	Texto: 'Esse texto é >:1.'.
-	Resultado: Esse texto é moldável.
+**Exemplo:**
 
-***molded***
-- Expõe texto já parametrizado.[Exceção]
+```dart
+var system = SystemLanguage.books({
+  'pt_br': bookPt,
+  'en_us': bookEn
+}, 'pt_br');
+```
 
- ### Adiciona livro individual.
- 
-***addBook***
-- Adiciona livro ao mapa. [Exceção]
+---
 
-# Introdução
+## 📖 Métodos
 
-O pacote faz uso somente das bibliotecas padrão, tornando-a sem restrições devido a dependências.
-E, para instalar o pacote no projeto basta utilizar o seguinte comando: ....
+### 🔍 `out`
 
-# Uso
+```dart
+String out(String index)
+```
 
-## ApplicationLanguage
+Retorna um texto com base no índice no idioma atual.
 
-Classe principal do pacote e que recebe os livros de linguagem para uso em qualquer parte do App.
+**Exemplo:**
 
-***ApplicationLanguage***
-- Função construtora para a classe. [Exceção]
-- Parâmetro(s):
-	- basic (String) = Identificador do indice.
-	- book (Book) = Objeto de linguagem que extende a classe Book.
+```dart
+system.out('welcome_message');
+```
 
-***ApplicationLanguage.books***
-- Função construtora nomeada para a classe. [Exceção]
-- Parâmetro(s):
-	- books (Map<String, Book) = Mapa de objetos de linguage que extende a classe Book.
-	- indexBasic (String) = Identificador do indice.
+---
 
-***out***
-- Expõe texto para o indice. [Retorno] [Exceção]
-- Parâmetro(s):
-	- index (String) = Identificador do index.
+### 🧩 `molded`
 
-***add***
-- Adiciona um registro no mapa padrão. [Retorno] [Exceção]
-- Parâmetro(s):
-	- index (String) = Identificador para o index.
-	- text (String) = Texto a ser guardado.
+```dart
+String molded(String index, Map<String,String> paramns)
+```
 
-***paramns***
-- Mapa de parametrizações. [Retorno] [Exceção]
-- Parâmetro(s):
-	- paramns (Map<String, Strign>) = Mapa de parâmetros a ser usado em texto moldável.
-	Ex.: { '1': 'moldável'}
-	Texto: 'Esse texto é >:1.'.
-	Resultado: Esse texto é moldável.
+Retorna um texto formatado com parâmetros dinâmicos.
 
-***molded***
-- Expõe texto já parametrizado. [Retorno] [Exceção]
-- Parâmetro(s):
-	- index (String) = Identificador do indice.
-	- paramns (Map<String, String>) = Mapa de parâmetros para o texto moldável.
- 
-***addBook***
-- Adiciona livro ao mapa. [Retorno] [Exceção]
-- Parâmetro(s):
-	- index (String) = Identificador do indice.
-	- book (Book) = Objeto de linguagem que extende a classe Book.
+**Exemplo:**
 
-## Books
+```dart
+system.molded('greeting', {'name': 'João'});
+```
 
-Classe a ser extendida pelo arquivo de linguagem com recursos para extrações e inclusões de textos da linguagem.
+---
 
-## Informações adicionais
+### ➕ `add`
 
-TODO: Dê mais informações aos usuários sobre o pacote: onde encontrar mais informações, como contribuir para o pacote, como registrar problemas, que resposta eles podem esperar
-dos autores do pacote e muito mais.
+```dart
+bool add({ required String index, required String text })
+```
+
+Adiciona um novo texto ao livro do idioma atual.
+
+**Exemplo:**
+
+```dart
+system.add(index: 'bye', text: 'Tchau!');
+```
+
+---
+
+### 📚 `addBook`
+
+```dart
+bool addBook(String index, Book book)
+```
+
+Adiciona um novo livro ao sistema para um idioma específico.
+
+**Exemplo:**
+
+```dart
+system.addBook('en_us', bookEn);
+```
+
+---
+
+## ⚙️ Getters e Setters
+
+### Idioma padrão
+
+```dart
+String get myBasic
+set myBasic(String basic)
+```
+
+---
+
+### Livros
+
+```dart
+Map<String, dynamic> get myBooks
+set myBooks(Map<String, dynamic> newBook)
+```
+
+---
+
+## 🧠 Conceito Geral
+
+A classe funciona como um **gerenciador de internacionalização simplificado**, onde:
+
+* Cada idioma possui um "Book"
+* O sistema usa um idioma padrão (`basic`)
+* Todas as operações são feitas com base nesse idioma ativo
+
+---
+
+## 📌 Dependência
+
+```dart
+import 'package:application_language/books/book.dart';
+```
+
+A classe depende de um objeto `Book`, que deve implementar métodos como:
+
+* `out`
+* `molded`
+* `add`
+
+---
+
+## ✅ Possíveis Melhorias
+
+* Tipar `books` como `Map<String, Book>`
+* Validação de existência do idioma antes de acessar
+* Tratamento de erros
+* Suporte a fallback de idioma
+
+

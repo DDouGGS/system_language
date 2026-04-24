@@ -1,8 +1,8 @@
-name: application_language
-description: "Gerência das bibliotecas de linguagem para o aplicativo."
+name: SystemLanguage
+description: "Sistema manipulador de linguagem."
 version: 0.0.1
 homepage:
-repository: https://github.com/DDouGGS/application_language
+repository: https://github.com/DDouGGS/system_language
 
 environment:
   sdk: ^3.9.2

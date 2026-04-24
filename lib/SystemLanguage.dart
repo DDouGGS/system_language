@@ -1,17 +1,17 @@
 import 'package:application_language/books/book.dart';
 
-class ApplicationLanguage
+class SystemLanguage
 {
   String basic = 'pt_br';
   late Map<String, dynamic> books;
   // contrutor
-  ApplicationLanguage(String basic, book)
+  SystemLanguage(String basic, book)
   {
     myBasic = basic;
     myBooks = {myBasic: book};
   }
   // construtor nomeado
-  ApplicationLanguage.books(Map<String, dynamic> books, String indexBasic)
+  SystemLanguage.books(Map<String, dynamic> books, String indexBasic)
   {
     myBasic = indexBasic;
     myBooks = books;
