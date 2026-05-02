@@ -1,7 +1,9 @@
 name: system_language
 description: "Sistema manipulador de linguagem."
 version: 0.0.1
-homepage:
+homepage: https://github.com/DDouGGS/system_language
+repository: https://github.com/DDouGGS/system_language
+
 
 environment:
   sdk: ^3.11.5
