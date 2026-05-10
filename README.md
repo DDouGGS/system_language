@@ -1,192 +1,293 @@
-Aqui está um exemplo de **README.md** claro e organizado baseado na sua classe Dart:
+# SystemLanguage
+
+Gerenciador de idiomas utilizando o padrão Singleton para armazenar e recuperar textos através de objetos `Book`.
 
 ---
 
-# 📚 SystemLanguage
+## Versão
 
-A classe `SystemLanguage` é responsável por gerenciar múltiplos conjuntos de textos (livros) para diferentes idiomas, permitindo acesso, customização e adição dinâmica de conteúdos.
-
-## 🚀 Objetivo
-
-Fornecer uma estrutura simples para:
-
-* Gerenciar idiomas
-* Recuperar textos por índice
-* Inserir novos textos
-* Trabalhar com textos dinâmicos (com parâmetros)
+Essa versão é a: 0.3.1
 
 ---
 
-## 🧱 Estrutura da Classe
+# Objetivo
 
-```dart
-class SystemLanguage
-```
+A classe `SystemLanguage` centraliza o controle de idiomas da aplicação, permitindo:
 
-### Propriedades
-
-| Nome    | Tipo                   | Descrição                            |
-| ------- | ---------------------- | ------------------------------------ |
-| `basic` | `String`               | Define o idioma padrão (ex: `pt_br`) |
-| `books` | `Map<String, dynamic>` | Mapa de livros por idioma            |
+* Definir o idioma atual.
+* Armazenar livros (`Book`) por idioma.
+* Recuperar textos por índice.
+* Adicionar novos textos.
+* Registrar novos idiomas dinamicamente.
 
 ---
 
-## 🔧 Construtores
+# Estrutura da Classe
 
-### 1. Construtor padrão
+```dart id="5vrg0l"
+class SystemLanguage {
+  String lng = 'pt-br';
+  Map<String, Book> books = <String, Book>{};
+  static final SystemLanguage _instance = SystemLanguage._();
 
-```dart
-SystemLanguage(String basic, book)
-```
+  // construtor privado
+  SystemLanguage._();
 
-Inicializa o sistema com:
+  // contrutor
+  factory SystemLanguage() {
+    return _instance;
+  }
 
-* Um idioma padrão
-* Um único livro associado a esse idioma
+  // construtor nomeado
+  SystemLanguage.books(Book book, String language) {
+    lng = language;
+    books = {lng: book};
+  }
 
-**Exemplo:**
+  // Devolve o texto para o indice.
+  String out(String index) {
+    return books[lng]!.out(index);
+  }
 
-```dart
-var system = SystemLanguage('pt_br', bookInstance);
-```
+  // Inclue texto no mapa como o indice.
+  bool add({required String index, required String text}) {
+    return books[lng]!.add(index, text);
+  }
 
----
-
-### 2. Construtor nomeado
-
-```dart
-SystemLanguage.books(Map<String, dynamic> books, String indexBasic)
-```
-
-Permite iniciar com múltiplos livros e definir o idioma padrão.
-
-**Exemplo:**
-
-```dart
-var system = SystemLanguage.books({
-  'pt_br': bookPt,
-  'en_us': bookEn
-}, 'pt_br');
+  // Adiciona livro ao mapa
+  bool addBook(Book book, String language) {
+    lng = language;
+    books = {lng: book};
+    return true;
+  }
+}
 ```
 
 ---
 
-## 📖 Métodos
+# Padrão Singleton
 
-### 🔍 `out`
+A classe utiliza o padrão Singleton, garantindo apenas uma instância global durante toda a execução da aplicação.
 
-```dart
+## Exemplo
+
+```dart id="pk0ayl"
+final language = SystemLanguage();
+```
+
+Todas as chamadas retornarão a mesma instância.
+
+---
+
+# Propriedades
+
+| Propriedade | Tipo                | Descrição                          |
+| ----------- | ------------------- | ---------------------------------- |
+| `lng`       | `String`            | Idioma atualmente selecionado      |
+| `books`     | `Map<String, Book>` | Mapa contendo os livros por idioma |
+| `_instance` | `SystemLanguage`    | Instância singleton da classe      |
+
+---
+
+# Construtores
+
+## Construtor Privado
+
+```dart id="7v44zu"
+SystemLanguage._();
+```
+
+Impede a criação direta da classe.
+
+---
+
+## Factory Constructor
+
+```dart id="o8qtnr"
+factory SystemLanguage()
+```
+
+Retorna a instância singleton da classe.
+
+---
+
+## Construtor Nomeado
+
+```dart id="nd0i3l"
+SystemLanguage.books(Book book, String language)
+```
+
+Inicializa o sistema já contendo um livro associado a um idioma.
+
+### Exemplo
+
+```dart id="yk1u5t"
+final lang = SystemLanguage.books(bookPt, 'pt-br');
+```
+
+---
+
+# Métodos
+
+---
+
+## out()
+
+Retorna um texto utilizando o índice informado.
+
+### Sintaxe
+
+```dart id="bvvqko"
 String out(String index)
 ```
 
-Retorna um texto com base no índice no idioma atual.
+### Parâmetros
 
-**Exemplo:**
+| Nome    | Tipo     | Descrição                |
+| ------- | -------- | ------------------------ |
+| `index` | `String` | Índice do texto desejado |
 
-```dart
-system.out('welcome_message');
+### Exemplo
+
+```dart id="0t7m5o"
+String text = language.out('welcome');
 ```
 
 ---
 
-### 🧩 `molded`
+## add()
 
-```dart
-String molded(String index, Map<String,String> paramns)
+Adiciona temporariamente um novo texto ao idioma atual.
+
+### Sintaxe
+
+```dart id="dkk45m"
+bool add({
+  required String index,
+  required String text
+})
 ```
 
-Retorna um texto formatado com parâmetros dinâmicos.
+### Parâmetros
 
-**Exemplo:**
+| Nome    | Tipo     | Descrição                     |
+| ------- | -------- | ----------------------------- |
+| `index` | `String` | Chave identificadora do texto |
+| `text`  | `String` | Texto que será armazenado     |
 
-```dart
-system.molded('greeting', {'name': 'João'});
-```
+### Exemplo
 
----
-
-### ➕ `add`
-
-```dart
-bool add({ required String index, required String text })
-```
-
-Adiciona um novo texto ao livro do idioma atual.
-
-**Exemplo:**
-
-```dart
-system.add(index: 'bye', text: 'Tchau!');
-```
-
----
-
-### 📚 `addBook`
-
-```dart
-bool addBook(String index, Book book)
-```
-
-Adiciona um novo livro ao sistema para um idioma específico.
-
-**Exemplo:**
-
-```dart
-system.addBook('en_us', bookEn);
+```dart id="l73qwi"
+language.add(
+  index: 'hello',
+  text: 'Olá Mundo'
+);
 ```
 
 ---
 
-## ⚙️ Getters e Setters
+## addBook()
 
-### Idioma padrão
+Adiciona um novo livro ao sistema e altera o idioma atual.
 
-```dart
-String get myBasic
-set myBasic(String basic)
+### Sintaxe
+
+```dart id="7v1zbf"
+bool addBook(Book book, String language)
+```
+
+### Parâmetros
+
+| Nome       | Tipo     | Descrição                |
+| ---------- | -------- | ------------------------ |
+| `book`     | `Book`   | Livro contendo os textos |
+| `language` | `String` | Código do idioma         |
+
+### Exemplo
+
+```dart id="84vowv"
+language.addBook(bookEn, 'en-us');
 ```
 
 ---
 
-### Livros
+# Exemplo Completo
 
-```dart
-Map<String, dynamic> get myBooks
-set myBooks(Map<String, dynamic> newBook)
+```dart id="n7rw8h"
+void main() {
+
+  Book ptBook = Book();
+  ptBook.add('hello', 'Olá');
+
+  Book enBook = Book();
+  enBook.add('hello', 'Hello');
+
+  final language = SystemLanguage.books(
+    ptBook,
+    'pt-br'
+  );
+
+  print(language.out('hello'));
+  // Olá
+
+  language.addBook(enBook, 'en-us');
+
+  print(language.out('hello'));
+  // Hello
+}
 ```
 
 ---
 
-## 🧠 Conceito Geral
+# Estrutura Esperada da Classe Book
 
-A classe funciona como um **gerenciador de internacionalização simplificado**, onde:
+A classe `Book` deve implementar os métodos abaixo:
 
-* Cada idioma possui um "Book"
-* O sistema usa um idioma padrão (`basic`)
-* Todas as operações são feitas com base nesse idioma ativo
+```dart id="zb6s7v"
+class Book {
 
----
+  bool add(String index, String text) {
+    // implementação
+  }
 
-## 📌 Dependência
-
-```dart
-import 'package:application_language/books/book.dart';
+  String out(String index) {
+    // implementação
+  }
+}
 ```
 
-A classe depende de um objeto `Book`, que deve implementar métodos como:
+---
 
-* `out`
-* `molded`
-* `add`
+# Observações Importantes
+
+## Troca de Idioma
+
+O método `addBook()` altera automaticamente o idioma atual:
+
+```dart id="47y2pd"
+lng = language;
+```
 
 ---
 
-## ✅ Possíveis Melhorias
+## Substituição do Mapa
 
-* Tipar `books` como `Map<String, Book>`
-* Validação de existência do idioma antes de acessar
-* Tratamento de erros
-* Suporte a fallback de idioma
+Ao adicionar um novo livro:
 
+```dart id="mf2w3s"
+books = {lng: book};
+```
 
+O mapa anterior é substituído completamente.
+
+### Exemplo
+
+Se já existirem outros idiomas registrados, eles serão removidos.
+
+---
+
+## 📄 Licença
+
+A Licença Apache 2.0 é uma licença de software de código aberto permissiva e popular. Ela permite o uso, modificação, distribuição e comercialização do software, inclusive em projetos fechados, desde que mantenha os créditos de autoria, inclua uma cópia da licença e relate as alterações feitas.
+
+---
