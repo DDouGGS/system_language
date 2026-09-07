@@ -1,5 +1,5 @@
 class Book {
-  late Map<String, String> texts;
+  Map<String, String> texts = <String, String>{};
 
   // Devolve o texto para o indice.
   String out(String index) {
